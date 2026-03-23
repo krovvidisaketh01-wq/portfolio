@@ -249,6 +249,7 @@ a:hover{text-decoration:underline}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('GTvEWXJQS28p5mSwJ');</script>
 </head>
 <body>
 
@@ -480,17 +481,17 @@ function sendMail(){
   if(!n||!e||!s){alert('Please fill in all required fields.');return}
   const btn=document.querySelector('#cform button');
   btn.textContent='SENDING...';btn.disabled=true;
-  emailjs.init('GTvEWXJQS28p5mSwJ');
   emailjs.send('service_hjljn3p','template_synqrea',{
     name:n, email:e, title:s, message:m
-  }).then(()=>{
+  }).then(function(){
     btn.textContent='SENT ✓';btn.style.borderColor='var(--neon-green)';btn.style.color='var(--neon-green)';
     document.getElementById('cn').value='';document.getElementById('ce').value='';
     document.getElementById('cs').value='';document.getElementById('cm').value='';
-    setTimeout(()=>{btn.textContent='TRANSMIT ⚡';btn.disabled=false},3000);
-  },()=>{
+    setTimeout(function(){btn.textContent='TRANSMIT ⚡';btn.disabled=false},3000);
+  },function(err){
+    console.log('EmailJS error:',err);
     btn.textContent='FAILED ✕';btn.style.borderColor='var(--neon-pink)';btn.style.color='var(--neon-pink)';
-    setTimeout(()=>{btn.textContent='TRANSMIT ⚡';btn.disabled=false;btn.style.borderColor='var(--neon-green)';btn.style.color='var(--neon-green)'},3000);
+    setTimeout(function(){btn.textContent='TRANSMIT ⚡';btn.disabled=false;btn.style.borderColor='var(--neon-green)';btn.style.color='var(--neon-green)'},3000);
   });
 }
 
