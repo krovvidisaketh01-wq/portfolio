@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saketh Krovvidi — Cyberpunk Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07070d;
+  --neon-cyan:#00f0ff;--neon-pink:#ff2d7b;--neon-purple:#b026ff;
+  --neon-green:#39ff14;--neon-yellow:#ffe600;--neon-orange:#ff6a00;--neon-blue:#4d7cff;
+  --text:#e0e0e8;--text-dim:#6a6a7e;--panel-bg:rgba(7,7,13,0.95);
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Rajdhani',sans-serif;color:var(--text)}
+a{color:var(--neon-cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ===== INTRO ===== */
+#intro{
+  position:fixed;inset:0;z-index:9999;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity 0.8s ease,transform 0.8s ease;
+}
+#intro.hide{opacity:0;transform:scale(1.05);pointer-events:none}
+#intro h1{
+  font-family:'Orbitron',monospace;font-size:clamp(26px,5vw,50px);font-weight:900;
+  background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple),var(--neon-pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:8px;animation:glitch 4s infinite;
+}
+#intro p{font-size:15px;color:var(--text-dim);margin-bottom:36px;font-family:'Share Tech Mono',monospace}
+#intro p span{color:var(--neon-cyan)}
+#enter-btn{
+  font-family:'Orbitron',monospace;font-size:13px;font-weight:700;
+  padding:14px 50px;border:2px solid var(--neon-cyan);
+  background:transparent;color:var(--neon-cyan);cursor:pointer;
+  letter-spacing:3px;text-transform:uppercase;transition:all 0.3s ease;
+}
+#enter-btn:hover{background:var(--neon-cyan);color:var(--bg);box-shadow:0 0 35px var(--neon-cyan)}
+@keyframes glitch{
+  0%,90%,100%{opacity:1}
+  91%{opacity:0.6;transform:translate(-3px,1px)}
+  92%{opacity:1;transform:translate(0)}
+  95%{opacity:0.7;transform:translate(2px,-1px)}
+  96%{opacity:1;transform:translate(0)}
+}
+
+/* ===== GAME ===== */
+#game{position:relative;width:100%;height:100%;overflow:hidden;display:none}
+
+/* Scanlines */
+#game::after{
+  content:'';position:fixed;inset:0;z-index:200;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);
+}
+
+/* ===== SCENE ===== */
+#scene{position:absolute;bottom:0;left:0;height:100%;transition:transform 0.05s linear;z-index:2}
+.layer{position:absolute;left:0}
+#ceil{top:0;height:50px;background:linear-gradient(180deg,#030306,#08080f);z-index:5}
+#ceil::after{
+  content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--neon-pink),var(--neon-purple),var(--neon-pink),transparent);
+  box-shadow:0 0 12px var(--neon-pink);
+}
+#wallbg{top:50px;bottom:110px;background:linear-gradient(180deg,#0a0a14,#0e0e1a 50%,#111120);z-index:1}
+#flr{bottom:0;height:110px;background:linear-gradient(0deg,#090910,#0e0e1a 60%,#14142a);z-index:3}
+#flr::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent 0%,var(--neon-cyan) 10%,var(--neon-purple) 50%,var(--neon-cyan) 90%,transparent);
+  box-shadow:0 0 15px var(--neon-cyan),0 0 40px rgba(176,38,255,0.3);
+}
+#flr::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(0,240,255,0.02) 0px,transparent 1px,transparent 100px),
+    repeating-linear-gradient(0deg,rgba(0,240,255,0.015) 0px,transparent 1px,transparent 50px);
+}
+
+/* Neon wall pipes */
+.pipe{position:absolute;z-index:2;opacity:0.12;border-radius:2px}
+
+/* ===== DOORS ===== */
+.dg{position:absolute;bottom:110px;z-index:4;display:flex;flex-direction:column;align-items:center}
+.df{
+  width:108px;height:168px;border:2px solid;border-bottom:none;
+  border-radius:10px 10px 0 0;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(0,0,0,0.85),rgba(0,0,0,0.4));
+  cursor:pointer;transition:all 0.3s ease;
+}
+.df::before{
+  content:'';position:absolute;inset:4px;border:1px solid;border-bottom:none;
+  border-radius:7px 7px 0 0;opacity:0.2;
+}
+.df:hover{transform:scale(1.04);filter:brightness(1.3)}
+.di{
+  position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);
+  font-size:34px;filter:drop-shadow(0 0 12px currentColor);transition:transform 0.3s;
+}
+.df:hover .di{transform:translate(-50%,-50%) scale(1.15)}
+.dh{position:absolute;right:11px;top:50%;width:6px;height:16px;border-radius:3px;background:currentColor;opacity:0.45}
+.dl{
+  font-family:'Orbitron',monospace;font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;margin-top:12px;
+  text-shadow:0 0 10px currentColor;
+}
+.dglow{
+  position:absolute;bottom:-10px;width:130px;height:50px;border-radius:50%;
+  filter:blur(25px);opacity:0;transition:opacity 0.5s;pointer-events:none;
+}
+.dg.near .dglow{opacity:0.35}
+.dg.near .dl{animation:plbl 1.5s ease infinite}
+@keyframes plbl{0%,100%{opacity:1}50%{opacity:0.4}}
+.ihint{
+  font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--neon-cyan);
+  margin-top:8px;opacity:0;transition:opacity 0.3s;letter-spacing:1px;
+}
+.dg.near .ihint{opacity:1}
+
+/* Door number */
+.dnum{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  font-family:'Orbitron',monospace;font-size:48px;font-weight:900;
+  opacity:0.06;color:currentColor;
+}
+
+/* ===== CHARACTER ===== */
+#char{position:absolute;bottom:110px;z-index:10;width:40px;height:64px}
+.ch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--neon-cyan);border-radius:4px;box-shadow:0 0 10px var(--neon-cyan)}
+.cv{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:16px;height:5px;background:var(--neon-pink);border-radius:2px;box-shadow:0 0 8px var(--neon-pink)}
+.ct{
+  position:absolute;top:22px;left:50%;transform:translateX(-50%);
+  width:18px;height:20px;background:#1a1a2e;border-radius:3px;
+  border:1px solid var(--neon-purple);box-shadow:0 0 5px rgba(176,38,255,0.3);
+}
+.cl,.cr{position:absolute;bottom:0;width:8px;height:18px;background:#12121e;border-radius:2px;border:1px solid var(--neon-cyan);box-shadow:0 0 3px rgba(0,240,255,0.2)}
+.cl{left:6px}.cr{right:6px}
+.wk .cl{animation:wl 0.3s infinite}
+.wk .cr{animation:wr 0.3s infinite}
+@keyframes wl{0%,100%{transform:rotate(0)}50%{transform:rotate(-15deg) translateY(-2px)}}
+@keyframes wr{0%,100%{transform:rotate(0)}50%{transform:rotate(15deg) translateY(-2px)}}
+#cg{position:absolute;bottom:108px;width:50px;height:12px;border-radius:50%;background:var(--neon-cyan);filter:blur(10px);opacity:0.3;z-index:9}
+
+/* ===== NAMETAG ===== */
+#nametag{
+  position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:300;
+  font-family:'Orbitron',monospace;font-size:clamp(11px,2.2vw,16px);font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;
+  background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;pointer-events:none;
+}
+
+/* ===== HELP ===== */
+#help{
+  position:fixed;top:50px;left:15px;z-index:300;
+  font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-dim);
+  line-height:1.6;opacity:0.6;
+}
+
+/* ===== MINIMAP ===== */
+#mm{position:fixed;top:50px;right:15px;z-index:300;background:rgba(7,7,13,0.8);border:1px solid rgba(0,240,255,0.12);border-radius:8px;padding:10px 12px}
+#mmb{width:130px;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;position:relative}
+#mmd{position:absolute;top:-3px;width:10px;height:10px;background:var(--neon-cyan);border-radius:50%;box-shadow:0 0 8px var(--neon-cyan);transition:left 0.1s linear}
+.mmk{position:absolute;top:-1px;width:3px;height:8px;border-radius:1px;opacity:0.5}
+
+/* ===== CONTROLS ===== */
+#ctrls{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:300;display:flex;gap:10px;align-items:center;
+}
+.cb{
+  width:52px;height:52px;border:2px solid var(--neon-cyan);
+  background:rgba(0,240,255,0.05);color:var(--neon-cyan);
+  font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  border-radius:10px;transition:all 0.15s;user-select:none;-webkit-user-select:none;
+  font-family:'Orbitron',monospace;
+}
+.cb:active,.cb.pr{background:rgba(0,240,255,0.2);box-shadow:0 0 20px var(--neon-cyan)}
+#bint{
+  border-color:var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,123,0.05);
+  font-size:11px;font-weight:700;letter-spacing:1px;width:72px;
+}
+#bint:active,#bint.pr{background:rgba(255,45,123,0.2);box-shadow:0 0 20px var(--neon-pink)}
+
+/* ===== MODAL ===== */
+#mo{
+  position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.3s;
+}
+#mo.show{display:flex;opacity:1}
+#mp{
+  width:min(660px,92vw);max-height:80vh;overflow-y:auto;
+  background:var(--panel-bg);border:1px solid;border-radius:14px;
+  padding:34px;position:relative;animation:min 0.4s ease;
+}
+@keyframes min{from{transform:translateY(30px) scale(0.95);opacity:0}to{transform:none;opacity:1}}
+#mp::-webkit-scrollbar{width:5px}
+#mp::-webkit-scrollbar-track{background:transparent}
+#mp::-webkit-scrollbar-thumb{background:var(--text-dim);border-radius:3px}
+#mc-btn{
+  position:absolute;top:12px;right:16px;font-size:24px;cursor:pointer;
+  opacity:0.6;transition:opacity 0.2s;background:none;border:none;color:var(--text);
+}
+#mc-btn:hover{opacity:1}
+#mc h2{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;margin-bottom:18px;letter-spacing:2px}
+#mc h3{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;margin:16px 0 6px;letter-spacing:1px}
+#mc p,#mc li{font-size:15px;line-height:1.7;font-family:'Rajdhani',sans-serif}
+#mc ul{list-style:none;padding:0}
+#mc ul li{padding:4px 0 4px 16px;position:relative}
+#mc ul li::before{content:'▸';position:absolute;left:0;opacity:0.4}
+.tg{display:inline-block;padding:3px 10px;margin:3px;border-radius:4px;font-family:'Share Tech Mono',monospace;font-size:12px;border:1px solid;opacity:0.85}
+.lb{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 18px;
+  border:1px solid;border-radius:6px;font-family:'Share Tech Mono',monospace;
+  font-size:13px;margin:5px;transition:all 0.2s;
+}
+.lb:hover{filter:brightness(1.3);text-decoration:none}
+.cf{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.cf input,.cf textarea{
+  background:rgba(255,255,255,0.04);border:1px solid var(--text-dim);
+  border-radius:6px;padding:10px 14px;color:var(--text);
+  font-family:'Rajdhani',sans-serif;font-size:15px;transition:border-color 0.2s;
+}
+.cf input:focus,.cf textarea:focus{outline:none;border-color:var(--neon-cyan)}
+.cf textarea{min-height:100px;resize:vertical}
+.cf button{
+  align-self:flex-start;padding:10px 28px;border:2px solid var(--neon-green);
+  background:rgba(57,255,20,0.08);color:var(--neon-green);
+  font-family:'Orbitron',monospace;font-size:12px;font-weight:700;
+  letter-spacing:2px;cursor:pointer;border-radius:6px;transition:all 0.2s;
+}
+.cf button:hover{background:var(--neon-green);color:var(--bg)}
+
+/* Particles */
+.pt{position:fixed;border-radius:50%;pointer-events:none;animation:fu linear infinite;opacity:0}
+@keyframes fu{0%{opacity:0;transform:translateY(0) scale(0.5)}15%{opacity:0.7}85%{opacity:0.3}100%{opacity:0;transform:translateY(-100vh) scale(0)}}
+
+@media(max-width:600px){
+  .df{width:88px;height:138px}
+  .di{font-size:26px}
+  .dl{font-size:8px;letter-spacing:1px}
+  .cb{width:46px;height:46px;font-size:18px}
+  #bint{width:62px;font-size:9px}
+  #mp{padding:22px 16px}
+  #help{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>SAKETH KROVVIDI</h1>
+  <p>// use <span>← →</span> to walk · doors open automatically</p>
+  <button id="enter-btn" onclick="startGame()">ENTER THE HALLWAY</button>
+</div>
+
+<!-- GAME -->
+<div id="game">
+  <div id="nametag">SAKETH KROVVIDI</div>
+  <div id="help">← → or A/D : walk<br>Doors open automatically<br>ESC : close panel</div>
+  <div id="mm"><div id="mmb"><div id="mmd"></div></div></div>
+
+  <div id="scene">
+    <div class="layer" id="ceil"></div>
+    <div class="layer" id="wallbg"></div>
+    <div class="layer" id="flr"></div>
+  </div>
+
+  <div id="char">
+    <div class="ch"></div><div class="cv"></div><div class="ct"></div>
+    <div class="cl"></div><div class="cr"></div>
+  </div>
+  <div id="cg"></div>
+
+  <div id="ctrls">
+    <button class="cb" id="bl">◀</button>
+    <button class="cb" id="br">▶</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="mo">
+  <div id="mp"><button id="mc-btn" onclick="closeM()">✕</button><div id="mc"></div></div>
+</div>
+
+<script>
+const DOORS=[
+  {id:'about',label:'ABOUT ME',icon:'👤',color:'var(--neon-cyan)',x:280,
+    html:`<h2 style="color:var(--neon-cyan)">👤 About Me</h2>
+      <p style="margin-bottom:14px">Detail-oriented Python Developer with professional backend engineering experience across Django, Flask, REST APIs, and database systems. Master's in Information Systems with a track record of delivering reliable, scalable software solutions.</p>
+      <h3 style="color:var(--neon-cyan)">Links</h3>
+      <div style="display:flex;flex-wrap:wrap;margin-top:8px">
+        <a class="lb" style="border-color:var(--neon-purple);color:var(--neon-purple)" href="https://github.com/krovvidisaketh01-wq" target="_blank">⌨ GitHub</a>
+        <a class="lb" style="border-color:var(--neon-blue);color:var(--neon-blue)" href="https://www.linkedin.com/in/saketh-krovvidi-662510325" target="_blank">💼 LinkedIn</a>
+      </div>
+      <h3 style="color:var(--neon-cyan);margin-top:16px">Contact</h3>
+      <p style="color:var(--text);font-family:'Share Tech Mono',monospace;font-size:14px;line-height:2">✉ krovvidisaketh01@gmail.com<br>📞 +1 (270) 883-2341</p>
+      <p style="margin-top:14px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:13px">📍 Murray, KY &nbsp;|&nbsp; 🛂 F-1 OPT Work Authorization</p>`},
+  {id:'skills',label:'SKILLS',icon:'⚡',color:'var(--neon-yellow)',x:580,
+    html:`<h2 style="color:var(--neon-yellow)">⚡ Technical Skills</h2>
+      <h3 style="color:var(--neon-yellow)">Languages</h3>
+      <div><span class="tg" style="border-color:var(--neon-yellow);color:var(--neon-yellow)">Python</span><span class="tg" style="border-color:var(--neon-yellow);color:var(--neon-yellow)">SQL</span><span class="tg" style="border-color:var(--neon-yellow);color:var(--neon-yellow)">Java</span><span class="tg" style="border-color:var(--neon-yellow);color:var(--neon-yellow)">C</span></div>
+      <h3 style="color:var(--neon-yellow)">Backend</h3>
+      <div><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">Django</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">Flask</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">REST APIs</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">OOP</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">API Integration</span></div>
+      <h3 style="color:var(--neon-yellow)">Frontend</h3>
+      <div><span class="tg" style="border-color:var(--neon-cyan);color:var(--neon-cyan)">Tkinter</span><span class="tg" style="border-color:var(--neon-cyan);color:var(--neon-cyan)">Matplotlib</span><span class="tg" style="border-color:var(--neon-cyan);color:var(--neon-cyan)">HTML</span></div>
+      <h3 style="color:var(--neon-yellow)">Databases</h3>
+      <div><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">MySQL</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">PostgreSQL</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">MongoDB</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">SQLite</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">Advanced SQL</span></div>
+      <h3 style="color:var(--neon-yellow)">Data & ETL</h3>
+      <div><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">Pandas</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">PySpark</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">ETL Pipelines</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">Star/Snowflake Schema</span></div>
+      <h3 style="color:var(--neon-yellow)">Tools & DevOps</h3>
+      <div><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">Git</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">GitHub</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">VS Code</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">Linux</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">PyTest</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">Agile/Scrum</span></div>`},
+  {id:'exp',label:'EXPERIENCE',icon:'💼',color:'var(--neon-pink)',x:880,
+    html:`<h2 style="color:var(--neon-pink)">💼 Experience</h2>
+      <h3 style="color:var(--neon-pink)">Graduate Engineer — HCL Technologies</h3>
+      <p style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:12px;margin-bottom:10px">Hyderabad, India &nbsp;|&nbsp; March 2022 – November 2023</p>
+      <ul>
+        <li>Developed Python backend components using Django and Flask, applying OOP principles for modular, maintainable code.</li>
+        <li>Built and integrated RESTful APIs for seamless backend-client communication across multiple services.</li>
+        <li>Performed data processing and ETL workflows using Pandas, handling CSV/JSON datasets for reporting and analytics.</li>
+        <li>Wrote and optimized complex SQL queries (joins, CTEs, window functions) for MySQL and PostgreSQL; worked with MongoDB for semi-structured data.</li>
+        <li>Assisted in data modeling using Star and Snowflake schemas; utilized PySpark for large-scale data processing.</li>
+        <li>Developed interactive GUI dashboards using Tkinter and Matplotlib; implemented unit testing with PyTest.</li>
+        <li>Collaborated in Agile/Scrum teams using Git/GitHub for version control in Linux environments.</li>
+      </ul>`},
+  {id:'proj',label:'PROJECTS',icon:'🚀',color:'var(--neon-green)',x:1180,
+    html:`<h2 style="color:var(--neon-green)">🚀 Projects</h2>
+      <h3 style="color:var(--neon-green)">Temple Management System</h3>
+      <p style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:12px;margin-bottom:6px">Python · SQLite · Tkinter · Matplotlib · ReportLab &nbsp;|&nbsp; Aug – Dec 2025</p>
+      <ul>
+        <li>Full-stack system with modules for pooja bookings, donations, stage bookings, festival events, and secure admin/employee authentication.</li>
+        <li>Tkinter GUI with advanced reporting: PDF generation, CSV exports, and Matplotlib analytics.</li>
+        <li>Five-module architecture: Database, UI, Manager Dashboard, Staff Dashboard, PDF Reports.</li>
+        <li>Automated routine operations, reducing manual workload by 60–70% and saving $3,000–$5,000 annually.</li>
+      </ul>
+      <h3 style="color:var(--neon-green);margin-top:18px">POPS — Production & Ordering Processing System</h3>
+      <p style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:12px;margin-bottom:6px">Python · SQLite · Tkinter &nbsp;|&nbsp; Aug – Nov 2024</p>
+      <ul>
+        <li>Streamlined order management, inventory monitoring, and customer service handling up to 1,000 orders/day.</li>
+        <li>Role-based access for sales managers, production managers, and customer service with automatic low-stock alerts.</li>
+        <li>Tkinter dashboards enabling 30% faster order tracking, reducing manual errors by 25%.</li>
+        <li>SQLite database managing 5,000+ records with secure handling and auto-generated IDs.</li>
+      </ul>`},
+  {id:'edu',label:'EDUCATION',icon:'🎓',color:'var(--neon-purple)',x:1480,
+    html:`<h2 style="color:var(--neon-purple)">🎓 Education</h2>
+      <h3 style="color:var(--neon-purple)">Murray State University, Murray, KY</h3>
+      <p>Master's in Information Systems &nbsp;|&nbsp; GPA: 3.66 / 4.00</p>
+      <p style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:12px">Spring 2024 – Fall 2025</p>
+      <h3 style="color:var(--neon-purple);margin-top:18px">Vignan Institute of Technology and Science, India</h3>
+      <p>Bachelor's in Electrical and Electronics Engineering &nbsp;|&nbsp; GPA: 8.30 / 10.00</p>
+      <p style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:12px">August 2019 – July 2023</p>
+      <h3 style="color:var(--neon-purple);margin-top:20px">📄 Publication</h3>
+      <p>"Cascaded Multilevel PV Inverter with Improved Harmonic Performance" — Published at <strong style="color:var(--neon-purple)">ICPERES 2023</strong> (International Conference on Power, Energy, and Renewable Energy Systems).</p>`},
+  {id:'contact',label:'CONTACT',icon:'✉',color:'var(--neon-green)',x:1780,
+    html:`<h2 style="color:var(--neon-green)">✉ Get In Touch</h2>
+      <p style="margin-bottom:16px">Interested in working together? Have an opportunity or just want to say hello? Drop me a message!</p>
+      <div class="cf" id="cform">
+        <input type="text" id="cn" placeholder="Your Name" required>
+        <input type="email" id="ce" placeholder="Your Email" required>
+        <input type="text" id="cs" placeholder="Subject" required>
+        <textarea id="cm" placeholder="Your Message..."></textarea>
+        <button onclick="sendMail()">TRANSMIT ⚡</button>
+      </div>
+      <p style="margin-top:18px;color:var(--text-dim);font-size:13px">Or reach me directly:</p>
+      <div style="display:flex;flex-wrap:wrap;margin-top:6px">
+        <a class="lb" style="border-color:var(--neon-cyan);color:var(--neon-cyan)" href="mailto:krovvidisaketh01@gmail.com">✉ krovvidisaketh01@gmail.com</a>
+        <a class="lb" style="border-color:var(--neon-green);color:var(--neon-green)" href="tel:+12708832341">📞 +1 (270) 883-2341</a>
+      </div>`},
+  {id:'thanks',label:'THANK YOU',icon:'🙏',color:'var(--neon-cyan)',x:2080,
+    html:`<h2 style="color:var(--neon-cyan)">🙏 End of the Hallway. Not the Story.</h2>
+      <p style="font-size:18px;line-height:1.9;margin-bottom:18px;color:var(--neon-cyan);font-family:'Share Tech Mono',monospace;letter-spacing:0.5px">You just walked through my digital home — not many make it to the last door. That tells me something about you.</p>
+      <p style="font-size:16px;line-height:1.85;margin-bottom:14px">Behind every door you opened lives a piece of who I am — the late-night debugging sessions, the systems I built from scratch, the curiosity that never shuts off. This hallway is more than a portfolio. It's a promise that I show up, I build, and I don't stop at "good enough."</p>
+      <p style="font-size:16px;line-height:1.85;margin-bottom:20px">If something here sparked an idea, a conversation, or even just a smile — then this hallway did its job.</p>
+      <div style="background:rgba(0,240,255,0.04);border-left:3px solid var(--neon-pink);padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0">
+        <p style="font-family:'Orbitron',monospace;font-size:15px;color:var(--neon-pink);letter-spacing:1.5px;margin-bottom:6px">» The next door I open? That one's ours to build together.</p>
+      </div>
+      <p style="margin-top:20px;font-size:15px">Thanks for visiting my world. Now let's make something in yours.</p>
+      <p style="margin-top:16px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:13px">— Saketh Krovvidi ⚡</p>
+      <div style="margin-top:24px;padding-top:18px;border-top:1px solid rgba(0,240,255,0.15)">
+        <p style="color:var(--neon-cyan);font-family:'Share Tech Mono',monospace;font-size:13px">⚡ Until next time...</p>
+      </div>`}
+];
+
+const SW=2500,PROX=72;
+let cx=80,spd=4,ml=false,mr=false,mopen=false,nd=null,lastAuto=null;
+const visited=new Set();
+
+const sc=document.getElementById('scene'),ch=document.getElementById('char'),
+  cg=document.getElementById('cg'),mo=document.getElementById('mo'),
+  mc=document.getElementById('mc'),mp=document.getElementById('mp'),
+  bint=document.getElementById('bint'),mmd=document.getElementById('mmd'),
+  mmb=document.getElementById('mmb');
+
+// Set widths
+['ceil','wallbg','flr'].forEach(id=>{document.getElementById(id).style.width=SW+'px'});
+
+// Build doors
+DOORS.forEach((d,i)=>{
+  const g=document.createElement('div');g.className='dg';g.id='dg-'+d.id;g.style.left=d.x+'px';
+  g.innerHTML=`<div class="df" style="border-color:${d.color};color:${d.color}" onclick="openD('${d.id}')">
+    <div class="dnum">${i+1}</div><div class="di">${d.icon}</div><div class="dh"></div>
+  </div><div class="dl" style="color:${d.color}">${d.label}</div>
+  <div class="ihint">AUTO-OPEN</div><div class="dglow" style="background:${d.color}"></div>`;
+  sc.appendChild(g);
+  const mk=document.createElement('div');mk.className='mmk';mk.style.background=d.color;
+  mk.style.left=(d.x/SW*100)+'%';mmb.appendChild(mk);
+});
+
+// Pipes on wall
+for(let i=0;i<12;i++){
+  const p=document.createElement('div');p.className='pipe';
+  const colors=['var(--neon-cyan)','var(--neon-pink)','var(--neon-purple)'];
+  const horizontal=Math.random()>0.5;
+  if(horizontal){
+    p.style.cssText=`left:${Math.random()*SW}px;top:${70+Math.random()*200}px;width:${60+Math.random()*120}px;height:2px;background:${colors[i%3]}`;
+  }else{
+    p.style.cssText=`left:${Math.random()*SW}px;top:${70+Math.random()*100}px;width:2px;height:${40+Math.random()*100}px;background:${colors[i%3]}`;
+  }
+  sc.appendChild(p);
+}
+
+// Particles
+function mkParts(){
+  const c=document.getElementById('game');
+  const cols=['var(--neon-cyan)','var(--neon-pink)','var(--neon-purple)'];
+  for(let i=0;i<25;i++){
+    const p=document.createElement('div');p.className='pt';
+    p.style.cssText=`left:${Math.random()*100}%;bottom:${-Math.random()*10}%;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;background:${cols[i%3]};animation-duration:${6+Math.random()*10}s;animation-delay:${Math.random()*10}s;z-index:1`;
+    c.appendChild(p);
+  }
+}
+
+function loop(){
+  if(!mopen){
+    if(ml)cx=Math.max(20,cx-spd);
+    if(mr)cx=Math.min(SW-60,cx+spd);
+    const vw=window.innerWidth;
+    let cam=-(cx-vw/2+20);
+    cam=Math.min(0,Math.max(-(SW-vw),cam));
+    sc.style.transform=`translateX(${cam}px)`;
+    ch.style.left=(cx+cam)+'px';
+    cg.style.left=(cx+cam-5)+'px';
+    if(ml||mr){ch.classList.add('wk');ch.style.transform=ml?'scaleX(-1)':'scaleX(1)'}
+    else ch.classList.remove('wk');
+    nd=null;
+    let nearAny=null;
+    DOORS.forEach(d=>{
+      const g=document.getElementById('dg-'+d.id);
+      if(Math.abs(cx+20-(d.x+54))<PROX){
+        g.classList.add('near');nd=d;nearAny=d.id;
+        if(lastAuto!==d.id){lastAuto=d.id;openD(d.id)}
+      } else {
+        g.classList.remove('near');
+      }
+    });
+    if(!nearAny)lastAuto=null;
+    mmd.style.left=(cx/SW*100)+'%';
+  }
+  requestAnimationFrame(loop);
+}
+
+function openD(id){
+  const d=DOORS.find(d=>d.id===id);if(!d)return;
+  mp.style.borderColor=d.color;mc.innerHTML=d.html;
+  mo.classList.add('show');mopen=true;mo._lastDoor=id;
+}
+function closeM(){
+  mo.classList.remove('show');mopen=false;
+}
+document.getElementById('mo').addEventListener('click',e=>{if(e.target===mo)closeM()});
+
+function sendMail(){
+  const n=document.getElementById('cn').value,e=document.getElementById('ce').value,
+    s=document.getElementById('cs').value,m=document.getElementById('cm').value;
+  if(!n||!e||!s)return;
+  window.open(`mailto:krovvidisaketh01@gmail.com?subject=${encodeURIComponent(s+' — from '+n)}&body=${encodeURIComponent('From: '+n+' ('+e+')\n\n'+m)}`,'_blank');
+}
+
+// Keyboard
+document.addEventListener('keydown',e=>{
+  if(mopen){if(e.key==='Escape')closeM();return}
+  if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A'){ml=true;document.getElementById('bl').classList.add('pr')}
+  if(e.key==='ArrowRight'||e.key==='d'||e.key==='D'){mr=true;document.getElementById('br').classList.add('pr')}
+  if((e.key==='e'||e.key==='E')&&nd)openD(nd.id);
+});
+document.addEventListener('keyup',e=>{
+  if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A'){ml=false;document.getElementById('bl').classList.remove('pr')}
+  if(e.key==='ArrowRight'||e.key==='d'||e.key==='D'){mr=false;document.getElementById('br').classList.remove('pr')}
+});
+
+// Touch
+function sBtn(id,dir){
+  const b=document.getElementById(id);
+  const on=()=>{if(dir==='l')ml=true;else mr=true};
+  const off=()=>{if(dir==='l')ml=false;else mr=false};
+  b.addEventListener('mousedown',on);b.addEventListener('mouseup',off);b.addEventListener('mouseleave',off);
+  b.addEventListener('touchstart',e=>{e.preventDefault();on()},{passive:false});
+  b.addEventListener('touchend',e=>{e.preventDefault();off()},{passive:false});
+}
+sBtn('bl','l');sBtn('br','r');
+function startGame(){
+  document.getElementById('intro').classList.add('hide');
+  setTimeout(()=>{
+    document.getElementById('intro').style.display='none';
+    document.getElementById('game').style.display='block';
+    mkParts();loop();
+  },800);
+}
+</script>
+</body>
+</html>
