@@ -482,7 +482,7 @@ function sendMail(){
   btn.textContent='SENDING...';btn.disabled=true;
   emailjs.init('GTvEWXJQS28p5mSwJ');
   emailjs.send('service_hjljn3p','template_synqrea',{
-    from_name:n, from_email:e, subject:s, message:m
+    name:n, email:e, title:s, message:m
   }).then(()=>{
     btn.textContent='SENT ✓';btn.style.borderColor='var(--neon-green)';btn.style.color='var(--neon-green)';
     document.getElementById('cn').value='';document.getElementById('ce').value='';
