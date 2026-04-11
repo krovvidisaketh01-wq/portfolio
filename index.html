@@ -17,7 +17,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 a{color:var(--neon-cyan);text-decoration:none}
 a:hover{text-decoration:underline}
 
-/* ===== INTRO ===== */
 #intro{
   position:fixed;inset:0;z-index:9999;background:var(--bg);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -47,16 +46,12 @@ a:hover{text-decoration:underline}
   96%{opacity:1;transform:translate(0)}
 }
 
-/* ===== GAME ===== */
 #game{position:relative;width:100%;height:100%;overflow:hidden;display:none}
-
-/* Scanlines */
 #game::after{
   content:'';position:fixed;inset:0;z-index:200;pointer-events:none;
   background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);
 }
 
-/* ===== SCENE ===== */
 #scene{position:absolute;bottom:0;left:0;height:100%;transition:transform 0.05s linear;z-index:2}
 .layer{position:absolute;left:0}
 #ceil{top:0;height:50px;background:linear-gradient(180deg,#030306,#08080f);z-index:5}
@@ -78,10 +73,8 @@ a:hover{text-decoration:underline}
     repeating-linear-gradient(0deg,rgba(0,240,255,0.015) 0px,transparent 1px,transparent 50px);
 }
 
-/* Neon wall pipes */
 .pipe{position:absolute;z-index:2;opacity:0.12;border-radius:2px}
 
-/* ===== DOORS ===== */
 .dg{position:absolute;bottom:110px;z-index:4;display:flex;flex-direction:column;align-items:center}
 .df{
   width:108px;height:168px;border:2px solid;border-bottom:none;
@@ -118,14 +111,12 @@ a:hover{text-decoration:underline}
 }
 .dg.near .ihint{opacity:1}
 
-/* Door number */
 .dnum{
   position:absolute;top:8px;left:50%;transform:translateX(-50%);
   font-family:'Orbitron',monospace;font-size:48px;font-weight:900;
   opacity:0.06;color:currentColor;
 }
 
-/* ===== CHARACTER ===== */
 #char{position:absolute;bottom:110px;z-index:10;width:40px;height:64px}
 .ch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--neon-cyan);border-radius:4px;box-shadow:0 0 10px var(--neon-cyan)}
 .cv{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:16px;height:5px;background:var(--neon-pink);border-radius:2px;box-shadow:0 0 8px var(--neon-pink)}
@@ -142,7 +133,6 @@ a:hover{text-decoration:underline}
 @keyframes wr{0%,100%{transform:rotate(0)}50%{transform:rotate(15deg) translateY(-2px)}}
 #cg{position:absolute;bottom:108px;width:50px;height:12px;border-radius:50%;background:var(--neon-cyan);filter:blur(10px);opacity:0.3;z-index:9}
 
-/* ===== NAMETAG ===== */
 #nametag{
   position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:300;
   font-family:'Orbitron',monospace;font-size:clamp(11px,2.2vw,16px);font-weight:700;
@@ -151,20 +141,17 @@ a:hover{text-decoration:underline}
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;pointer-events:none;
 }
 
-/* ===== HELP ===== */
 #help{
   position:fixed;top:50px;left:15px;z-index:300;
   font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-dim);
   line-height:1.6;opacity:0.6;
 }
 
-/* ===== MINIMAP ===== */
 #mm{position:fixed;top:50px;right:15px;z-index:300;background:rgba(7,7,13,0.8);border:1px solid rgba(0,240,255,0.12);border-radius:8px;padding:10px 12px}
 #mmb{width:130px;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;position:relative}
 #mmd{position:absolute;top:-3px;width:10px;height:10px;background:var(--neon-cyan);border-radius:50%;box-shadow:0 0 8px var(--neon-cyan);transition:left 0.1s linear}
 .mmk{position:absolute;top:-1px;width:3px;height:8px;border-radius:1px;opacity:0.5}
 
-/* ===== CONTROLS ===== */
 #ctrls{
   position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
   z-index:300;display:flex;gap:10px;align-items:center;
@@ -177,13 +164,7 @@ a:hover{text-decoration:underline}
   font-family:'Orbitron',monospace;
 }
 .cb:active,.cb.pr{background:rgba(0,240,255,0.2);box-shadow:0 0 20px var(--neon-cyan)}
-#bint{
-  border-color:var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,123,0.05);
-  font-size:11px;font-weight:700;letter-spacing:1px;width:72px;
-}
-#bint:active,#bint.pr{background:rgba(255,45,123,0.2);box-shadow:0 0 20px var(--neon-pink)}
 
-/* ===== MODAL ===== */
 #mo{
   position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.7);
   backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;
@@ -233,7 +214,6 @@ a:hover{text-decoration:underline}
 }
 .cf button:hover{background:var(--neon-green);color:var(--bg)}
 
-/* Particles */
 .pt{position:fixed;border-radius:50%;pointer-events:none;animation:fu linear infinite;opacity:0}
 @keyframes fu{0%{opacity:0;transform:translateY(0) scale(0.5)}15%{opacity:0.7}85%{opacity:0.3}100%{opacity:0;transform:translateY(-100vh) scale(0)}}
 
@@ -242,25 +222,20 @@ a:hover{text-decoration:underline}
   .di{font-size:26px}
   .dl{font-size:8px;letter-spacing:1px}
   .cb{width:46px;height:46px;font-size:18px}
-  #bint{width:62px;font-size:9px}
   #mp{padding:22px 16px}
   #help{display:none}
 }
-
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>emailjs.init('GTvEWXJQS28p5mSwJ');</script>
 </head>
 <body>
 
-<!-- INTRO -->
 <div id="intro">
   <h1>SAKETH KROVVIDI</h1>
   <p>// use <span>← →</span> to walk · doors open automatically</p>
   <button id="enter-btn" onclick="startGame()">ENTER THE HALLWAY</button>
 </div>
 
-<!-- GAME -->
 <div id="game">
   <div id="nametag">SAKETH KROVVIDI</div>
   <div id="help">← → or A/D : walk<br>Doors open automatically<br>ESC : close panel</div>
@@ -284,7 +259,6 @@ a:hover{text-decoration:underline}
   </div>
 </div>
 
-<!-- MODAL -->
 <div id="mo">
   <div id="mp"><button id="mc-btn" onclick="closeM()">✕</button><div id="mc"></div></div>
 </div>
@@ -293,7 +267,7 @@ a:hover{text-decoration:underline}
 const DOORS=[
   {id:'about',label:'ABOUT ME',icon:'👤',color:'var(--neon-cyan)',x:280,
     html:`<h2 style="color:var(--neon-cyan)">👤 About Me</h2>
-      <p style="margin-bottom:14px">Detail-oriented Python Developer with professional backend engineering experience across Django, Flask, REST APIs, and database systems. Master's in Information Systems with a track record of delivering reliable, scalable software solutions.</p>
+      <p style="margin-bottom:14px">Results-driven Python Developer and Data Engineer with 2+ years of hands-on experience delivering scalable backend systems, ETL pipelines, and data-driven solutions in enterprise environments. Proven track record building production-grade pipelines using PySpark, Airflow, FastAPI, and Snowflake on GCP and Databricks, with a sharp focus on performance, data integrity, and reliability. Deep expertise across the full data engineering stack — from REST API development and SQL optimization to multi-schema data modeling and automated reporting with Pandas and NumPy. Strong foundation in Django, Flask, and OOP principles, with experience deploying solutions that handle thousands of records daily while reducing manual overhead by up to 70%.</p>
       <h3 style="color:var(--neon-cyan)">Links</h3>
       <div style="display:flex;flex-wrap:wrap;margin-top:8px">
         <a class="lb" style="border-color:var(--neon-purple);color:var(--neon-purple)" href="https://github.com/krovvidisaketh01-wq" target="_blank">⌨ GitHub</a>
@@ -307,13 +281,15 @@ const DOORS=[
       <h3 style="color:var(--neon-yellow)">Languages</h3>
       <div><span class="tg" style="border-color:var(--neon-yellow);color:var(--neon-yellow)">Python</span><span class="tg" style="border-color:var(--neon-yellow);color:var(--neon-yellow)">SQL</span><span class="tg" style="border-color:var(--neon-yellow);color:var(--neon-yellow)">Java</span><span class="tg" style="border-color:var(--neon-yellow);color:var(--neon-yellow)">C</span></div>
       <h3 style="color:var(--neon-yellow)">Backend</h3>
-      <div><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">Django</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">Flask</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">REST APIs</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">OOP</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">API Integration</span></div>
+      <div><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">Django</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">Flask</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">FastAPI</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">REST APIs</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">OOP</span><span class="tg" style="border-color:var(--neon-orange);color:var(--neon-orange)">API Integration</span></div>
       <h3 style="color:var(--neon-yellow)">Frontend</h3>
       <div><span class="tg" style="border-color:var(--neon-cyan);color:var(--neon-cyan)">Tkinter</span><span class="tg" style="border-color:var(--neon-cyan);color:var(--neon-cyan)">Matplotlib</span><span class="tg" style="border-color:var(--neon-cyan);color:var(--neon-cyan)">HTML</span></div>
       <h3 style="color:var(--neon-yellow)">Databases</h3>
-      <div><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">MySQL</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">PostgreSQL</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">MongoDB</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">SQLite</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">Advanced SQL</span></div>
+      <div><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">MySQL</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">PostgreSQL</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">MongoDB</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">SQLite</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">Snowflake</span><span class="tg" style="border-color:var(--neon-purple);color:var(--neon-purple)">Advanced SQL (Joins, CTEs, Window Functions)</span></div>
       <h3 style="color:var(--neon-yellow)">Data & ETL</h3>
-      <div><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">Pandas</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">PySpark</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">ETL Pipelines</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">Star/Snowflake Schema</span></div>
+      <div><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">PySpark</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">Airflow</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">Pandas</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">NumPy</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">Dataiku DSS</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">ETL Pipelines</span><span class="tg" style="border-color:var(--neon-green);color:var(--neon-green)">Data Modeling (Star/Snowflake Schema)</span></div>
+      <h3 style="color:var(--neon-yellow)">Cloud & Platforms</h3>
+      <div><span class="tg" style="border-color:var(--neon-blue);color:var(--neon-blue)">GCP</span><span class="tg" style="border-color:var(--neon-blue);color:var(--neon-blue)">Databricks</span><span class="tg" style="border-color:var(--neon-blue);color:var(--neon-blue)">SQLAlchemy</span><span class="tg" style="border-color:var(--neon-blue);color:var(--neon-blue)">psycopg2</span></div>
       <h3 style="color:var(--neon-yellow)">Tools & DevOps</h3>
       <div><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">Git</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">GitHub</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">VS Code</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">Linux</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">PyTest</span><span class="tg" style="border-color:var(--neon-pink);color:var(--neon-pink)">Agile/Scrum</span></div>`},
   {id:'exp',label:'EXPERIENCE',icon:'💼',color:'var(--neon-pink)',x:880,
@@ -354,10 +330,23 @@ const DOORS=[
       <p style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:12px">Spring 2024 – Fall 2025</p>
       <h3 style="color:var(--neon-purple);margin-top:18px">Vignan Institute of Technology and Science, India</h3>
       <p>Bachelor's in Electrical and Electronics Engineering &nbsp;|&nbsp; GPA: 7.34 / 10.00</p>
-      <p style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:12px">August 2019 – July 2023</p>
-      <h3 style="color:var(--neon-purple);margin-top:20px">📄 Publication</h3>
-      <p>"Cascaded Multilevel PV Inverter with Improved Harmonic Performance" — Published at <strong style="color:var(--neon-purple)">ICPERES 2023</strong> (International Conference on Power, Energy, and Renewable Energy Systems).</p>`},
-  {id:'contact',label:'CONTACT',icon:'✉',color:'var(--neon-green)',x:1780,
+      <p style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:12px">August 2019 – July 2023</p>`},
+  {id:'certs',label:'CERTIFICATIONS',icon:'📜',color:'var(--neon-orange)',x:1780,
+    html:`<h2 style="color:var(--neon-orange)">📜 Certifications</h2>
+      <h3 style="color:var(--neon-orange)">Dataiku Academy</h3>
+      <ul>
+        <li><strong style="color:var(--neon-orange)">Core Designer</strong> — Datasets, visual recipes, data preparation, collaborative analytics</li>
+        <li><strong style="color:var(--neon-orange)">Advanced Designer</strong> — Variables, data pipelines, scenarios, automation</li>
+        <li><strong style="color:var(--neon-orange)">ML Practitioner</strong> — Visual machine learning, interactive statistics, model evaluation</li>
+        <li><strong style="color:var(--neon-orange)">Developer</strong> — Code recipes, webapps, APIs, plugin development</li>
+      </ul>
+      <h3 style="color:var(--neon-orange);margin-top:18px">freeCodeCamp</h3>
+      <ul>
+        <li><strong style="color:var(--neon-orange)">Python Developer</strong> — Python scripting, OOP, algorithms, data structures, automation</li>
+        <li><strong style="color:var(--neon-orange)">JavaScript Developer</strong> — ES6+, DOM manipulation, async programming, functional concepts</li>
+        <li><strong style="color:var(--neon-orange)">Relational Database Developer</strong> — SQL, PostgreSQL, Bash scripting, database design, Git</li>
+      </ul>`},
+  {id:'contact',label:'CONTACT',icon:'✉',color:'var(--neon-green)',x:2080,
     html:`<h2 style="color:var(--neon-green)">✉ Get In Touch</h2>
       <p style="margin-bottom:16px">Interested in working together? Have an opportunity or just want to say hello? Drop me a message!</p>
       <div class="cf" id="cform">
@@ -372,7 +361,7 @@ const DOORS=[
         <a class="lb" style="border-color:var(--neon-cyan);color:var(--neon-cyan)" href="mailto:krovvidisaketh01@gmail.com">✉ krovvidisaketh01@gmail.com</a>
         <a class="lb" style="border-color:var(--neon-green);color:var(--neon-green)" href="tel:+12708832341">📞 +1 (270) 883-2341</a>
       </div>`},
-  {id:'thanks',label:'THANK YOU',icon:'🙏',color:'var(--neon-cyan)',x:2080,
+  {id:'thanks',label:'THANK YOU',icon:'🙏',color:'var(--neon-cyan)',x:2380,
     html:`<h2 style="color:var(--neon-cyan)">🙏 End of the Hallway. Not the Story.</h2>
       <p style="font-size:18px;line-height:1.9;margin-bottom:18px;color:var(--neon-cyan);font-family:'Share Tech Mono',monospace;letter-spacing:0.5px">You just walked through my digital home — not many make it to the last door. That tells me something about you.</p>
       <p style="font-size:16px;line-height:1.85;margin-bottom:14px">Behind every door you opened lives a piece of who I am — the late-night debugging sessions, the systems I built from scratch, the curiosity that never shuts off. This hallway is more than a portfolio. It's a promise that I show up, I build, and I don't stop at "good enough."</p>
@@ -387,7 +376,7 @@ const DOORS=[
       </div>`}
 ];
 
-const SW=2500,PROX=72;
+const SW=2800,PROX=72;
 let cx=80,spd=4,ml=false,mr=false,mopen=false,nd=null,lastAuto=null;
 const visited=new Set();
 
@@ -397,10 +386,8 @@ const sc=document.getElementById('scene'),ch=document.getElementById('char'),
   bint=document.getElementById('bint'),mmd=document.getElementById('mmd'),
   mmb=document.getElementById('mmb');
 
-// Set widths
 ['ceil','wallbg','flr'].forEach(id=>{document.getElementById(id).style.width=SW+'px'});
 
-// Build doors
 DOORS.forEach((d,i)=>{
   const g=document.createElement('div');g.className='dg';g.id='dg-'+d.id;g.style.left=d.x+'px';
   g.innerHTML=`<div class="df" style="border-color:${d.color};color:${d.color}" onclick="openD('${d.id}')">
@@ -412,7 +399,6 @@ DOORS.forEach((d,i)=>{
   mk.style.left=(d.x/SW*100)+'%';mmb.appendChild(mk);
 });
 
-// Pipes on wall
 for(let i=0;i<12;i++){
   const p=document.createElement('div');p.className='pipe';
   const colors=['var(--neon-cyan)','var(--neon-pink)','var(--neon-purple)'];
@@ -425,7 +411,6 @@ for(let i=0;i<12;i++){
   sc.appendChild(p);
 }
 
-// Particles
 function mkParts(){
   const c=document.getElementById('game');
   const cols=['var(--neon-cyan)','var(--neon-pink)','var(--neon-purple)'];
@@ -481,21 +466,20 @@ function sendMail(){
   if(!n||!e||!s){alert('Please fill in all required fields.');return}
   const btn=document.querySelector('#cform button');
   btn.textContent='SENDING...';btn.disabled=true;
+  emailjs.init('GTvEWXJQS28p5mSwJ');
   emailjs.send('service_hjljn3p','template_synqrea',{
     name:n, email:e, title:s, message:m
-  }).then(function(){
+  }).then(()=>{
     btn.textContent='SENT ✓';btn.style.borderColor='var(--neon-green)';btn.style.color='var(--neon-green)';
     document.getElementById('cn').value='';document.getElementById('ce').value='';
     document.getElementById('cs').value='';document.getElementById('cm').value='';
-    setTimeout(function(){btn.textContent='TRANSMIT ⚡';btn.disabled=false},3000);
-  },function(err){
-    console.log('EmailJS error:',err);
+    setTimeout(()=>{btn.textContent='TRANSMIT ⚡';btn.disabled=false},3000);
+  },()=>{
     btn.textContent='FAILED ✕';btn.style.borderColor='var(--neon-pink)';btn.style.color='var(--neon-pink)';
-    setTimeout(function(){btn.textContent='TRANSMIT ⚡';btn.disabled=false;btn.style.borderColor='var(--neon-green)';btn.style.color='var(--neon-green)'},3000);
+    setTimeout(()=>{btn.textContent='TRANSMIT ⚡';btn.disabled=false;btn.style.borderColor='var(--neon-green)';btn.style.color='var(--neon-green)'},3000);
   });
 }
 
-// Keyboard
 document.addEventListener('keydown',e=>{
   if(mopen){if(e.key==='Escape')closeM();return}
   if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A'){ml=true;document.getElementById('bl').classList.add('pr')}
@@ -507,7 +491,6 @@ document.addEventListener('keyup',e=>{
   if(e.key==='ArrowRight'||e.key==='d'||e.key==='D'){mr=false;document.getElementById('br').classList.remove('pr')}
 });
 
-// Touch
 function sBtn(id,dir){
   const b=document.getElementById(id);
   const on=()=>{if(dir==='l')ml=true;else mr=true};
